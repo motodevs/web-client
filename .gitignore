@@ -1,0 +1,8 @@
+vendor
+public/*
+!public/.gitkeep
+
+src/env/*
+!src/env/local.js
+node_modules
+.idea

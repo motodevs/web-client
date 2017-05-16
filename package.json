@@ -1,0 +1,16 @@
+{
+  "name": "mototracker",
+  "version": "1.0.0",
+  "description": "motodev.net moto tracker client app",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Yunus Oksuz",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.11",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1"
+  }
+}
