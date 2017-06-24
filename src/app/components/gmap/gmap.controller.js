@@ -11,21 +11,6 @@
     var moment = $window.moment;
     var markers = [];
 
-    if (angular.isUndefined(vm.center) || angular.isUndefined(vm.center.lat) || angular.isUndefined(vm.center.lng)) {
-      vm.center = { lat: 39.0407786,  lng: 35.8698383 }
-    }
-
-    if (angular.isUndefined(vm.options) || angular.isUndefined(vm.options.zoom)) {
-      vm.options = vm.options || {};
-      vm.options.zoom = 6;
-    }
-
-    if (!vm.mapId) {
-      vm.mapId = "google-map-" + parseInt(Math.random() * 100000);
-    }
-
-    $scope.$on('lat-lng-change', onLatLngChange);
-
     /**
      * if lat-lng-change event broadcasted before map load, push event to eventQ
      */
@@ -64,25 +49,37 @@
       }
     }
 
-
-    /**
-     * if map is ready, send collected events to onLatLngChange
-     */
-    var intervalId = $interval(function () {
-      if (vm.map) {
-        eventQ.map(function (ev) {
-          onLatLngChange(undefined, ev);
-        });
-        eventQ = [];
-        $interval.cancel(intervalId);
+    function init() {
+      if (angular.isUndefined(vm.center) || angular.isUndefined(vm.center.lat) || angular.isUndefined(vm.center.lng)) {
+        vm.center = { lat: 39.0407786,  lng: 35.8698383 }
       }
-    }, 500);
 
+      if (angular.isUndefined(vm.options) || angular.isUndefined(vm.options.zoom)) {
+        vm.options = vm.options || {};
+        vm.options.zoom = 6;
+      }
 
+      if (!vm.mapId) {
+        vm.mapId = "google-map-" + parseInt(Math.random() * 100000);
+      }
+
+      $scope.$on('lat-lng-change', onLatLngChange);
+
+      /**
+       * when map is ready, send collected events to onLatLngChange
+       */
+      var intervalId = $interval(function () {
+        if (vm.map) {
+          eventQ.map(function (ev) {
+            onLatLngChange(undefined, ev);
+          });
+          eventQ = [];
+          $interval.cancel(intervalId);
+        }
+      }, 500);
+    }
+
+    init();
   }
-
-
-
-
 
 }).call(this);
