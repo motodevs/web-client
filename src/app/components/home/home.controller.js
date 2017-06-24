@@ -3,15 +3,32 @@
   var module = angular.module('MotoTracker');
   module.controller('HomeController', homeControllerFn);
 
-  homeControllerFn.$inject = ['homeService'];
+  homeControllerFn.$inject = ['homeService', '$scope'];
 
-  function homeControllerFn(homeService) {
+  function homeControllerFn(homeService, $scope) {
     var vm = this;
+    var deviceId = 'test-device-id';
 
-    homeService.getLastValidLocation(function (latLng) {
-      console.log(latLng);
+
+    vm.lastLocation = {};
+
+    homeService.getLastLocation(deviceId, 'VALID', function (latLng) {
+      $scope.$broadcast('lat-lng-change', { lat: latLng.latitude, lng: latLng.longitude, zoom: 17, date: latLng.date, clearMarkers: true });
     });
 
+    vm.reloadData = function () {
+      getLastLocation();
+    };
+
+
+    function getLastLocation() {
+      homeService.getLastLocation(deviceId, 'VALID', function (latLng) {
+        $scope.$broadcast('lat-lng-change', { lat: latLng.latitude, lng: latLng.longitude, zoom: 17, date: latLng.date, clearMarkers: true });
+      });
+    }
+
+
+    getLastLocation();
   }
 
 

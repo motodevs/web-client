@@ -7,22 +7,36 @@
 
   function homeServiceFn($http, $log, $window, config) {
     var moment = $window.moment;
+
     return {
-      getLastValidLocation: getLastValidLocation
+      getLastLocation: getLastLocation
     };
 
-    function getLastValidLocation(success) {
-      $http.get(config.api + '/messages/86307101896953212?size=1&messageStatus=0').then(function (response) {
-        var d = response.data[0];
-        success({
-          latitude: d.latitude,
-          longitude: d.longitude,
-          date: moment(d.datetime.$date)
-        });
-      }, function (error) {
-        $log.warn(error);
-      })
+    function getLastLocation(deviceId, status, successFn, failFn) {
+      status = status || 'VALID';
+      failFn = getFailFn(failFn);
+
+      $http.get(config.api + '/messages/'+ deviceId +'?size=1&gps=' + status).then(function (response) {
+        var d = response.data;
+        if (angular.isArray(d) && d.length > 0) {
+          var loc = d[0];
+          successFn({
+            latitude: loc.latitude,
+            longitude: loc.longitude,
+            date: moment(loc.datetime)
+          });
+        }
+      }, failFn)
     }
+
+
+
+    function getFailFn(failFn) {
+      return failFn || function (r) {
+          $log.warn(r);
+        };
+    }
+
   }
 
 

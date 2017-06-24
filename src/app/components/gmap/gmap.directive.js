@@ -6,16 +6,16 @@
   directiveFn.$inject = ['appConfig', '$window'];
 
   function directiveFn(appConfig, $window) {
-    var id = "google-map-" + parseInt(Math.random() * 100000);
     return {
       restrict: 'EA',
       scope: {},
       controller: 'GMapController',
       controllerAs: 'vm',
-      template: '<div class="google-map" id="'+ id +'"></div>',
+      template: '<div class="google-map" id="{{vm.mapId}}"></div>',
       bindToController: {
-        center: '=',
-        options: '=?'
+        center: '=?',
+        options: '=?',
+        mapId: '@?'
       },
       link: linkFn
     };
@@ -26,12 +26,12 @@
       function initMap() {
         var opts = controller.options || {};
 
-        opts.zoom = opts.zoom || 15;
+        opts.zoom = opts.zoom || 5;
         opts.center = controller.center;
 
-        var mapW = document.getElementById(id);
+        var mapW = document.getElementById(controller.mapId);
 
-        controller.map = new google.maps.Map(mapW, opts);
+        scope.vm.map = new google.maps.Map(mapW, opts);
       }
     }
 
