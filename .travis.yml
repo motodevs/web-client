@@ -2,13 +2,22 @@ language: node_js
 node_js:
   - "6"
 
+services:
+  - docker
+
 cache:
   directories:
     - "node_modules"
     - "vendor"
 
-install:
+before_install:
   - npm install bower -g
   - npm install
   - bower install
-  - gulp build
+
+
+script: gulp build
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push openmts/webcli;

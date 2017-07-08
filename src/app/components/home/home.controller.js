@@ -9,7 +9,6 @@
     var vm = this;
     var deviceId = 'test-device-id';
 
-
     vm.lastLocation = {};
 
     homeService.getLastLocation(deviceId, 'VALID', function (latLng) {
