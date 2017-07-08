@@ -19,5 +19,6 @@ before_install:
 script: gulp build
 
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker build -t openmts/webcli .;
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push openmts/webcli;
