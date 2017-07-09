@@ -1,0 +1,67 @@
+
+<div class="navbar navbar-fixed-top">
+
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="https://github.com/openmts" target="_blank">
+                Openmts
+            </a>
+            <!--<div class="nav-collapse">
+                <ul class="nav pull-right">
+
+                    <li class="">
+                        <a href="signup.html" class="">
+                            Don't have an account?
+                        </a>
+
+                    </li>
+
+                    <li class="">
+                        <a href="index.html" class="">
+                            <i class="icon-chevron-left"></i>
+                            Back to Homepage
+                        </a>
+
+                    </li>
+                </ul>
+
+            </div>-->
+            <!--/.nav-collapse -->
+        </div> <!-- /container -->
+    </div> <!-- /navbar-inner -->
+</div> <!-- /navbar -->
+
+<div class="account-container">
+    <div class="content clearfix">
+        <h1>Giriş</h1>
+        <div class="login-fields">
+
+            <p>Kullanıcı adı ve şifrenizi kullanarak giriş yapınız</p>
+
+            <div class="field">
+                <label for="username">Kullanıcı Adı</label>
+                <input ng-model="vm.username" type="text" id="username" name="username" value="" placeholder="Kullanıcı Adı" class="login username-field" />
+            </div> <!-- /field -->
+
+            <div class="field">
+                <label for="password">Şifre:</label>
+                <input ng-model="vm.password" type="password" id="password" name="password" value="" placeholder="Şifre" class="login password-field"/>
+            </div> <!-- /password -->
+
+        </div> <!-- /login-fields -->
+
+        <div class="login-actions">
+            <div ng-if="vm.loginError" class="alert alert-error">
+                <button type="button" class="close" ng-click="vm.loginError = false">×</button>
+                <strong>Hata!</strong> Kullanıcı adı veya şifre hatalı
+            </div>
+            <button class="button btn btn-success btn-large" ng-click="vm.doLogin()">Giriş</button>
+
+        </div> <!-- .actions -->
+    </div> <!-- /content -->
+</div> <!-- /account-container -->

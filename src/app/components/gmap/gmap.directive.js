@@ -1,6 +1,6 @@
 (function () {
 
-  angular.module('MotoTracker')
+  angular.module('OpenMtsWebCli')
     .directive('googleMap', directiveFn);
 
   directiveFn.$inject = ['appConfig', '$window'];

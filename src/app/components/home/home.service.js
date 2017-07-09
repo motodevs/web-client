@@ -1,6 +1,6 @@
 (function () {
 
-  var module = angular.module('MotoTracker');
+  var module = angular.module('OpenMtsWebCli');
   module.factory('homeService', homeServiceFn);
 
   homeServiceFn.$inject = ['$http', '$log', '$window', 'appConfig'];

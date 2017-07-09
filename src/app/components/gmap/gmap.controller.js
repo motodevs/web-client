@@ -1,6 +1,6 @@
 (function () {
 
-  var module = angular.module('MotoTracker');
+  var module = angular.module('OpenMtsWebCli');
   module.controller('GMapController', gmapControllerFn);
 
   gmapControllerFn.$inject = ['$scope', '$interval', '$window'];

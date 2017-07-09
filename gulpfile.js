@@ -8,6 +8,7 @@ var configFile = './src/env/' + env + ".js";
 
 var vendorJS = [
   'vendor/angular/angular.min.js',
+  'vendor/angular-cookies/angular-cookies.min.js',
   'vendor/angular-ui-router/release/angular-ui-router.min.js',
   'vendor/jquery/jquery.min.js',
   'vendor/moment/min/moment.min.js',
