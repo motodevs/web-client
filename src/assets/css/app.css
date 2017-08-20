@@ -1,4 +1,23 @@
 .google-map {
     width: 100%;
-    height: 460px;
+}
+
+.container-fluid.dashboard {
+    padding: 0;
+}
+
+.container-fluid.dashboard .widget-content {
+    padding: 0;
+}
+
+.container-fluid.dashboard .row-fluid:first-child {
+    margin-top: 0;
+}
+
+.container-fluid.dashboard .row-fluid .span12 .widget-box {
+    margin-top: 0;
+}
+
+.container-fluid.dashboard .widget-title .refresh-button {
+    cursor: pointer;
 }

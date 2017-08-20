@@ -1,46 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>OpenMTS Motorcycle Tracking System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
-          rel="stylesheet">
-    <link href="css/font-awesome.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/pages/dashboard.css" rel="stylesheet">
-    <link href="css/pages/signin.css" rel="stylesheet" type="text/css">
-    <link href="css/app.css" rel="stylesheet">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <title>Matrix Admin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/fullcalendar.css" />
+    <link rel="stylesheet" href="css/matrix-style.css" />
+    <link rel="stylesheet" href="css/matrix-media.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/jquery.gritter.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body ng-app="OpenMtsWebCli">
-
 <ui-view></ui-view>
 
-
 <script src="vendor/vendor.min.js"></script>
-<script src="js/excanvas.min.js"></script>
-<script src="js/chart.min.js" type="text/javascript"></script>
-<script src="js/bootstrap.js"></script>
-<!--<script language="javascript" type="text/javascript" src="js/full-calendar/fullcalendar.min.js"></script>-->
-<script src="js/base.js"></script>
-<script src="app.js"></script>
+<!--end-Footer-part-->
 
+<script src="js/excanvas.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/matrix.js"></script>
+<script src="js/jquery.gritter.min.js"></script>
+<script src="js/matrix.interface.js"></script>
+<script src="js/matrix.chat.js"></script>
+<script src="js/jquery.validate.js"></script>
+<script src="js/matrix.form_validation.js"></script>
+<script src="js/jquery.wizard.js"></script>
+<script src="js/jquery.uniform.js"></script>
+<script src="js/select2.min.js"></script>
+<script src="js/matrix.popover.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/matrix.tables.js"></script>
+
+
+<!--<script src="js/jquery.flot.min.js"></script>-->
+<!--<script src="js/jquery.flot.resize.min.js"></script>-->
+<!--<script src="js/matrix.dashboard.js"></script>-->
+
+
+<!-- app -->
+<script src="app.js"></script>
 <script src="components/login/login.controller.js"></script>
 <script src="components/login/login.service.js"></script>
-
 <script src="components/home/home.controller.js"></script>
 <script src="components/home/home.service.js"></script>
-
 <script src="components/gmap/gmap.controller.js"></script>
 <script src="components/gmap/gmap.directive.js"></script>
-
 <script src="components/default-http-interceptor.service.js"></script>
 
 

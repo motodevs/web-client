@@ -1,67 +1,25 @@
-
-<div class="navbar navbar-fixed-top">
-
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="https://github.com/openmts" target="_blank">
-                Openmts
-            </a>
-            <!--<div class="nav-collapse">
-                <ul class="nav pull-right">
-
-                    <li class="">
-                        <a href="signup.html" class="">
-                            Don't have an account?
-                        </a>
-
-                    </li>
-
-                    <li class="">
-                        <a href="index.html" class="">
-                            <i class="icon-chevron-left"></i>
-                            Back to Homepage
-                        </a>
-
-                    </li>
-                </ul>
-
-            </div>-->
-            <!--/.nav-collapse -->
-        </div> <!-- /container -->
-    </div> <!-- /navbar-inner -->
-</div> <!-- /navbar -->
-
-<div class="account-container">
-    <div class="content clearfix">
-        <h1>Giriş</h1>
-        <div class="login-fields">
-
-            <p>Kullanıcı adı ve şifrenizi kullanarak giriş yapınız</p>
-
-            <div class="field">
-                <label for="username">Kullanıcı Adı</label>
-                <input ng-model="vm.username" type="text" id="username" name="username" value="" placeholder="Kullanıcı Adı" class="login username-field" />
-            </div> <!-- /field -->
-
-            <div class="field">
-                <label for="password">Şifre:</label>
-                <input ng-model="vm.password" type="password" id="password" name="password" value="" placeholder="Şifre" class="login password-field"/>
-            </div> <!-- /password -->
-
-        </div> <!-- /login-fields -->
-
-        <div class="login-actions">
-            <div ng-if="vm.loginError" class="alert alert-error">
-                <button type="button" class="close" ng-click="vm.loginError = false">×</button>
-                <strong>Hata!</strong> Kullanıcı adı veya şifre hatalı
+<div id="loginbox">
+    <form id="loginform" ng-submit="vm.doLogin()" class="form-vertical" novalidate>
+        <div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" ng-model="vm.username" placeholder="Username" />
+                </div>
             </div>
-            <button class="button btn btn-success btn-large" ng-click="vm.doLogin()">Giriş</button>
-
-        </div> <!-- .actions -->
-    </div> <!-- /content -->
-</div> <!-- /account-container -->
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_ly"><i class="icon-lock"></i></span><input ng-model="vm.password" type="password" placeholder="Password" />
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <!--<span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>-->
+            <span class="pull-right"><a ng-click="vm.doLogin()" class="btn btn-success" /> Login</a></span>
+        </div>
+    </form>
+</div>
+<link rel="stylesheet" href="css/matrix-login.css" />
+<script src="js/matrix.login.js"></script>

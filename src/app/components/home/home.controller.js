@@ -12,10 +12,6 @@
 
     vm.lastLocation = {};
 
-    homeService.getLastLocation(deviceId, 'VALID', function (latLng) {
-      $scope.$broadcast('lat-lng-change', { lat: latLng.latitude, lng: latLng.longitude, zoom: 17, date: latLng.date, clearMarkers: true });
-    });
-
     vm.reloadData = function () {
       getLastLocation();
     };
@@ -25,6 +21,7 @@
         $scope.$broadcast('lat-lng-change', { lat: latLng.latitude, lng: latLng.longitude, zoom: 17, date: latLng.date, clearMarkers: true });
       });
     }
+
 
     getLastLocation();
   }

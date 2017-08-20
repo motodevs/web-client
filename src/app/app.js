@@ -8,16 +8,7 @@
 
       $stateProvider.state('app', {
         abstract: true,
-        controller: ['$cookies', 'loginService', '$state', function ($cookies, loginService, $state) {
-          var vm = this;
-          vm.user = $cookies.getObject('user');
-
-          vm.logout = function () {
-            loginService.logout();
-            $state.go('login');
-          }
-
-        }],
+        controller: 'AppController',
         controllerAs: 'vm',
         templateUrl: 'components/app/app.html'
       });
@@ -59,5 +50,23 @@
       });
 
   }]);
+
+  module.controller('AppController', appControllerFn);
+  appControllerFn.$inject = ['$cookies', 'loginService', '$state'];
+
+  function appControllerFn($cookies, loginService, $state) {
+    var vm = this;
+    vm.user = $cookies.getObject('user');
+    var stateNameParts = $state.current.name.split('.');
+
+    vm.logout = function () {
+      loginService.logout();
+      $state.go('login');
+    };
+
+    vm.contentClass = stateNameParts.pop();
+    vm.$state = $state;
+  }
+
 
 }).call(this);

@@ -21,6 +21,7 @@
     };
 
     function linkFn(scope, element, attrs, controller) {
+      var $ = $window.jQuery;
       appendGoogleMapsJS(initMap);
 
       function initMap() {
@@ -33,6 +34,14 @@
 
         scope.vm.map = new google.maps.Map(mapW, opts);
       }
+
+      function calcHeight() {
+        var h = $('#content').outerHeight() - 103;
+        $('.google-map').height(h);
+      }
+
+      $($window).on('resize', calcHeight);
+      calcHeight();
     }
 
     function appendGoogleMapsJS(callback) {

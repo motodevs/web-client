@@ -1,4 +1,19 @@
-<div class="row">
-    <button ng-click="vm.reloadData()" class="pull-right"><i class="icon-large icon-refresh"></i></button>
-    <google-map></google-map>
+<!--<button ng-click="vm.reloadData()" class="pull-right"><i class="icon-large icon-refresh"></i></button>-->
+<!--<google-map></google-map>-->
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-title"> <span ng-click="vm.reloadData()" class="refresh-button icon"> <i class="icon-refresh"></i> </span>
+                <h5>Last Location</h5>
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="widget-content">
+                <google-map></google-map>
+            </div>
+        </div>
+    </div>
 </div>
+
