@@ -9,24 +9,41 @@
     var moment = $window.moment;
 
     return {
-      getLastLocation: getLastLocation
+      getMessages: getMessages,
+      getDeviceState: getDeviceState
     };
 
-    function getLastLocation(deviceId, status, successFn, failFn) {
-      status = status || 'VALID';
+    function getMessages(deviceId, size, successFn, failFn) {
+      var status = 'VALID';
+      size = size || 1;
       failFn = getFailFn(failFn);
 
-      $http.get(config.api + '/messages/'+ deviceId +'?size=1&gps=' + status).then(function (response) {
+      $http.get(config.api + '/messages/'+ deviceId +'?size='+ size +'&gps=' + status).then(function (response) {
         var d = response.data;
+        var result = [];
+
         if (angular.isArray(d) && d.length > 0) {
-          var loc = d[0];
-          successFn({
-            latitude: loc.latitude,
-            longitude: loc.longitude,
-            date: moment(loc.datetime)
+          d.map(function (r) {
+            result.unshift({
+              speed: r.speed,
+              distance: r.distance,
+              latitude: r.latitude,
+              longitude: r.longitude,
+              direction: r.direction,
+              date: moment(r.datetime)
+            });
           });
+          successFn(result);
         }
       }, failFn)
+    }
+
+    function getDeviceState(deviceId, successFn, failFn) {
+      failFn = getFailFn(failFn);
+      $http.get(config.api + '/device/meta/'+ deviceId).then(function (response) {
+        response.data.deviceDate = moment(response.data.deviceDate);
+        successFn(response.data);
+      }, failFn);
     }
 
 

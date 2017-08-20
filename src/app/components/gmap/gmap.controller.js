@@ -3,13 +3,12 @@
   var module = angular.module('OpenMtsWebCli');
   module.controller('GMapController', gmapControllerFn);
 
-  gmapControllerFn.$inject = ['$scope', '$interval', '$window'];
+  gmapControllerFn.$inject = ['$scope', '$interval'];
 
-  function gmapControllerFn($scope, $interval, $window) {
+  function gmapControllerFn($scope, $interval) {
     var vm = this;
     var eventQ = [];
-    var moment = $window.moment;
-    var markers = [];
+    var marker;
 
     /**
      * if lat-lng-change event broadcasted before map load, push event to eventQ
@@ -20,6 +19,10 @@
         vm.map.setZoom(obj.zoom);
         vm.map.panTo(latLng);
 
+        var markerProperties = {
+          position: latLng,
+          map: vm.map
+        };
 
         if (obj.clearMarkers) {
           markers.map(function (m) {
@@ -27,23 +30,22 @@
           });
         }
 
-        var marker = new google.maps.Marker({
-          position: latLng,
-          map: vm.map,
-          animation: google.maps.Animation.DROP,
-          title: moment(obj.date).format('DD.MM.YYYY HH:mm:ss')
-        });
+        if (obj.direction) {
+          markerProperties.icon = {
+            path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            scale: 4,
+            rotation: obj.direction
+          };
+        }
 
-        var infoWindow = new google.maps.InfoWindow({
-          content: 'Lokasyon Tarihi: ' + moment(obj.date).format('DD.MM.YYYY HH:mm:ss')
-        });
-
-        google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open(vm.map, marker);
-        });
-
-        markers.push(marker);
-
+        if (!marker) {
+          marker = new google.maps.Marker(markerProperties);
+        } else {
+          marker.setPosition(latLng);
+          if (markerProperties.icon) {
+            marker.setIcon(markerProperties.icon)
+          }
+        }
       } else {
         eventQ.unshift(obj);
       }

@@ -21,3 +21,13 @@
 .container-fluid.dashboard .widget-title .refresh-button {
     cursor: pointer;
 }
+
+span.device-info {
+    color: #666;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px;
+    line-height: 12px;
+    margin: 0;
+    float:left
+}
