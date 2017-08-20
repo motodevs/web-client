@@ -19,6 +19,6 @@ before_install:
 script: gulp build
 
 after_success:
-  - docker build -t openmts/webcli .;
+  - docker build -t openvehicletracking/webcli .;
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push openvehicletracking/webcli;
