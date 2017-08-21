@@ -8,21 +8,40 @@
   function homeControllerFn(homeService, $scope, $cookies, $interval) {
     var vm = this;
     vm.user = $cookies.getObject('user');
-    var deviceId = vm.user.deviceId;
+    var deviceId = vm.user.deviceId, intervalId;
 
     vm.lastLocation = {};
 
-    vm.reloadData = function () {
-      getLastLocation();
+    function getMapData() {
+      if (vm.deviceState) {
+        return {
+          lat: vm.deviceState.latitude,
+          lng: vm.deviceState.longitude,
+          date: vm.deviceState.deviceDate,
+          direction: vm.deviceState.direction
+        };
+      }
+    }
+
+    vm.reCenter = function () {
+      var mapData = getMapData() || {};
+      mapData.pan = true;
+      mapData.zoom = 17 ;
+      $scope.$broadcast('lat-lng-change', mapData);
+
     };
 
     function deviceStateHandler(state) {
       vm.deviceState = state;
-      $scope.$broadcast('lat-lng-change', { lat: state.latitude, lng: state.longitude, zoom: 17, date: state.deviceDate, direction: state.direction });
+      $scope.$broadcast('lat-lng-change', getMapData());
     }
 
     function getLastLocation() {
       homeService.getDeviceState(deviceId, deviceStateHandler);
+    }
+
+    function startInterval() {
+      intervalId = $interval(getLastLocation, 3000);
     }
 
 
@@ -38,8 +57,20 @@
     //   }, 150);
     // });
 
-    $interval(getLastLocation, 3000);
-    getLastLocation();
+    function init() {
+      homeService.getDeviceState(deviceId, function (state) {
+        vm.deviceState = state;
+        var mapData = getMapData();
+        mapData.pan = true;
+        mapData.zoom = 17;
+        $scope.$broadcast('lat-lng-change', mapData);
+        startInterval();
+      });
+    }
+
+
+    init();
+
   }
 
 

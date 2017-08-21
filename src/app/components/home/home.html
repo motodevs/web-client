@@ -4,9 +4,9 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="widget-box">
-            <div class="widget-title"> <span ng-click="vm.reloadData()" class="refresh-button icon"> <i class="icon-refresh"></i> </span>
+            <div class="widget-title"> <span ng-click="vm.reCenter()" class="refresh-button icon"> <i class="icon-crosshair"></i> </span>
                 <span class="device-info">Speed: {{ vm.deviceState.speed | number :2  }}</span>
-                <span class="device-info">Distance: {{ vm.deviceState.distance | number: 3 }}</span>
+                <span class="device-info">Distance: {{ vm.deviceState.distance | number: 3 }} KM</span>
                 <span class="device-info">Status: {{ vm.deviceState.deviceStatus }}</span>
                 <span class="device-info">DeviceDate: {{ vm.deviceState.deviceDate.format('DD.MM.YYYY HH:mm:ss') }}</span>
             </div>

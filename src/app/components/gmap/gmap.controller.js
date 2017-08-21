@@ -13,41 +13,44 @@
     /**
      * if lat-lng-change event broadcasted before map load, push event to eventQ
      */
-    function onLatLngChange(event, obj) {
-      if (vm.map) {
-        var latLng = new google.maps.LatLng(obj.lat, obj.lng);
-        vm.map.setZoom(obj.zoom);
+    function onLatLngChange(event, mapData) {
+      if (!vm.map) {
+        eventQ.unshift(mapData);
+        return;
+      }
+
+      var latLng = new google.maps.LatLng(mapData.lat, mapData.lng);
+      var markerProperties = { position: latLng, map: vm.map };
+
+      if (mapData.zoom) {
+        vm.map.setZoom(mapData.zoom);
+      }
+
+      if (mapData.pan) {
         vm.map.panTo(latLng);
+      }
 
-        var markerProperties = {
-          position: latLng,
-          map: vm.map
+      if (mapData.clearMarkers) {
+        markers.map(function (m) {
+          m.setMap(null);
+        });
+      }
+
+      if (mapData.direction) {
+        markerProperties.icon = {
+          path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          scale: 4,
+          rotation: mapData.direction
         };
+      }
 
-        if (obj.clearMarkers) {
-          markers.map(function (m) {
-            m.setMap(null);
-          });
-        }
-
-        if (obj.direction) {
-          markerProperties.icon = {
-            path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            scale: 4,
-            rotation: obj.direction
-          };
-        }
-
-        if (!marker) {
-          marker = new google.maps.Marker(markerProperties);
-        } else {
-          marker.setPosition(latLng);
-          if (markerProperties.icon) {
-            marker.setIcon(markerProperties.icon)
-          }
-        }
+      if (!marker) {
+        marker = new google.maps.Marker(markerProperties);
       } else {
-        eventQ.unshift(obj);
+        marker.setPosition(latLng);
+        if (markerProperties.icon) {
+          marker.setIcon(markerProperties.icon)
+        }
       }
     }
 

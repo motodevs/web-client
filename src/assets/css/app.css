@@ -1,5 +1,14 @@
+#content {
+    padding-bottom: 0;
+    min-height: 90%;
+}
+
 .google-map {
     width: 100%;
+}
+
+.container-fluid.dashboard {
+    min-height: 100%;
 }
 
 .container-fluid.dashboard {
@@ -22,6 +31,10 @@
     cursor: pointer;
 }
 
+.container-fluid.dashboard .widget-box {
+    margin-bottom: 0;
+}
+
 span.device-info {
     color: #666;
     font-size: 12px;
@@ -30,4 +43,9 @@ span.device-info {
     line-height: 12px;
     margin: 0;
     float:left
+}
+
+.icon-crosshair:before {
+    content: '\f05b';
+    font-size: 20px;
 }

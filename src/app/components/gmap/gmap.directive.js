@@ -30,13 +30,14 @@
         opts.zoom = opts.zoom || 5;
         opts.center = controller.center;
 
+
         var mapW = document.getElementById(controller.mapId);
 
         scope.vm.map = new google.maps.Map(mapW, opts);
       }
 
       function calcHeight() {
-        var h = $('#content').outerHeight() - 103;
+        var h = $('#content').innerHeight() - 80;
         $('.google-map').height(h);
       }
 
