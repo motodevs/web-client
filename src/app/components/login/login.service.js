@@ -20,17 +20,24 @@
       var data = { username: username, password: password };
 
       $http.post(config.api + '/access-token', data).then(function (response) {
-        var user = {
-          username: response.data.username,
-          name: response.data.name,
-          surname: response.data.surname,
-          deviceId: response.data.devices[0],
-          accessToken: response.data.accessToken
-        };
+        var user = { accessToken: response.data.token };
         $cookies.putObject('user', user);
-        loginSuccessFn(user);
+        return $http.get(config.api + '/user');
       }, function (r) {
         loginFailFn(r);
+      }).then(function (response) {
+        if (!response) {
+          loginFailFn();
+          return;
+        }
+
+        var user = $cookies.getObject('user') || {};
+        user.username = response.data.email;
+        user.name = response.data.name;
+        user.surname = response.data.surname;
+        user.device = response.data.devices[0];
+        $cookies.putObject('user', user);
+        loginSuccessFn(user);
       });
     }
 

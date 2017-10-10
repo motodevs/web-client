@@ -8,7 +8,7 @@
   function homeControllerFn(homeService, $scope, $cookies, $interval) {
     var vm = this;
     vm.user = $cookies.getObject('user');
-    var deviceId = vm.user.deviceId, intervalId;
+    var deviceId = vm.user.device.serial, intervalId;
 
     vm.lastLocation = {};
 
@@ -28,7 +28,6 @@
       mapData.pan = true;
       mapData.zoom = 17 ;
       $scope.$broadcast('lat-lng-change', mapData);
-
     };
 
     function deviceStateHandler(state) {

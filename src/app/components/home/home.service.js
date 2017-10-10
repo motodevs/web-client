@@ -40,7 +40,7 @@
 
     function getDeviceState(deviceId, successFn, failFn) {
       failFn = getFailFn(failFn);
-      $http.get(config.api + '/device/meta/'+ deviceId).then(function (response) {
+      $http.get(config.api + '/device/'+ deviceId + '/state').then(function (response) {
         response.data.deviceDate = moment(response.data.deviceDate);
         successFn(response.data);
       }, failFn);
