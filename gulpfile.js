@@ -7,19 +7,34 @@ var env = process.env.ENV || 'local';
 var configFile = './src/env/' + env + ".js";
 
 var vendorJS = [
+  'vendor/jquery/dist/jquery.min.js',
   'vendor/angular/angular.min.js',
   'vendor/angular-cookies/angular-cookies.min.js',
   'vendor/angular-ui-router/release/angular-ui-router.min.js',
-  'vendor/jquery/jquery.min.js',
   'vendor/moment/min/moment.min.js',
-  'vendor/moment/min/locales.min.js'
+  'vendor/moment/min/locales.min.js',
+  'vendor/bootstrap/dist/js/bootstrap.min.js'
 ];
 
+var vendorCSS = [
+  'vendor/bootstrap/dist/css/bootstrap.min.css'
+];
 
-gulp.task('vendor', function () {
+gulp.task('vendorJS', function () {
   return gulp.src(vendorJS)
     .pipe(concat('vendor.min.js'))
-    .pipe(gulp.dest('./public/vendor'))
+    .pipe(gulp.dest('./public/vendor/js'))
+});
+
+gulp.task('vendorCSS', function () {
+  return gulp.src(vendorCSS)
+    .pipe(concat('vendor.min.css'))
+    .pipe(gulp.dest('./public/vendor/css'))
+});
+
+gulp.task('bootstrapFonts', function () {
+  return gulp.src(['vendor/bootstrap/dist/fonts/**/*.*'])
+    .pipe(gulp.dest('./public/vendor/fonts'))
 });
 
 gulp.task('copy', function () {
@@ -51,6 +66,8 @@ gulp.task('browser-sync', function () {
   });
 });
 
+
+gulp.task('vendor', ['vendorJS', 'vendorCSS', 'bootstrapFonts']);
 
 gulp.task('build', ['vendor', 'copy', 'copyApp', 'copyAssets']);
 

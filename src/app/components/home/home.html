@@ -1,19 +1,25 @@
 <!--<button ng-click="vm.reloadData()" class="pull-right"><i class="icon-large icon-refresh"></i></button>-->
 <!--<google-map></google-map>-->
 
-<div class="row-fluid">
-    <div class="span12">
-        <div class="widget-box">
-            <div class="widget-title"> <span ng-click="vm.reCenter()" class="refresh-button icon"> <i class="icon-crosshair"></i> </span>
-                <span class="device-info">Speed: {{ vm.deviceState.speed | number :2  }}</span>
-                <span class="device-info">Distance: {{ vm.deviceState.distance | number: 3 }} KM</span>
-                <span class="device-info">Status: {{ vm.deviceState.deviceStatus }}</span>
-                <span class="device-info">DeviceDate: {{ vm.deviceState.deviceDate.format('DD.MM.YYYY HH:mm:ss') }}</span>
-            </div>
-            <div class="widget-content">
-                <google-map></google-map>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="row">
+    <div class="current-state">
 
+        <span class="device-info">
+            <span class="device-info-title">Speed:</span> {{ vm.deviceState.speed | number :2  }} |
+        </span>
+
+        <span class="device-info">
+            <span class="device-info-title">Distance:</span> {{ vm.deviceState.distance | number: 3 }} KM |
+        </span>
+
+        <span class="device-info">
+            <span class="device-info-title">Status:</span> {{ vm.deviceState.deviceStatus }} |
+        </span>
+
+        <span class="device-info">
+            <span class="device-info-title">DeviceDate:</span> {{ vm.deviceState.deviceDate.format('DD.MM.YYYY HH:mm:ss') }}
+        </span>
+
+    </div>
+    <google-map ng-if="vm.loaded" responsive="vm.mapConfig"></google-map>
+</div>

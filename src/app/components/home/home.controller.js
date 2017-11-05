@@ -3,14 +3,19 @@
   var module = angular.module('OpenMtsWebCli');
   module.controller('HomeController', homeControllerFn);
 
-  homeControllerFn.$inject = ['homeService', '$scope', '$cookies', '$interval'];
+  homeControllerFn.$inject = ['homeService', '$scope', '$cookies', '$interval', '$window', '$timeout'];
 
-  function homeControllerFn(homeService, $scope, $cookies, $interval) {
+  function homeControllerFn(homeService, $scope, $cookies, $interval, $window, $timeout) {
     var vm = this;
+    var deviceId, intervalId;
     vm.user = $cookies.getObject('user');
-    var deviceId = vm.user.device.serial, intervalId;
-
+    vm.mapConfig = {
+      autoWidthHeight: true
+    };
+    vm.loaded = false;
     vm.lastLocation = {};
+
+    deviceId = vm.user.device.serial;
 
     function getMapData() {
       if (vm.deviceState) {
@@ -35,28 +40,33 @@
       $scope.$broadcast('lat-lng-change', getMapData());
     }
 
-    function getLastLocation() {
-      homeService.getDeviceState(deviceId, deviceStateHandler);
-    }
-
     function startInterval() {
-      intervalId = $interval(getLastLocation, 3000);
+      intervalId = $interval(function () {
+        homeService.getDeviceState(deviceId, deviceStateHandler);
+      }, 3000);
     }
-
 
     function init() {
       homeService.getDeviceState(deviceId, function (state) {
         vm.deviceState = state;
-        var mapData = getMapData();
-        mapData.pan = true;
-        mapData.zoom = 17;
-        $scope.$broadcast('lat-lng-change', mapData);
+        configureMapSize();
+        vm.loaded = true;
+        var mapdata = angular.extend(getMapData(), { pan: true, zoom: 17 });
+        $timeout(function () { $scope.$broadcast('lat-lng-change', mapdata); }, 500);
         startInterval();
       }, function () {
+        configureMapSize();
         startInterval();
+        vm.loaded = true;
       });
     }
 
+    function configureMapSize() {
+      var $ = $window.jQuery;
+      var h1 = $('.current-state').height();
+      var h2 = parseInt($('body').css('padding-top'));
+      vm.mapConfig.heightMargin = h1 + h2;
+    }
 
     init();
 

@@ -4,6 +4,7 @@
     .directive('googleMap', directiveFn);
 
   directiveFn.$inject = ['appConfig', '$window'];
+  var $ = window.jQuery;
 
   function directiveFn(appConfig, $window) {
     return {
@@ -15,34 +16,46 @@
       bindToController: {
         center: '=?',
         options: '=?',
-        mapId: '@?'
+        mapId: '@?',
+        responsive: '=?'
       },
       link: linkFn
     };
 
     function linkFn(scope, element, attrs, controller) {
-      var $ = $window.jQuery;
       appendGoogleMapsJS(initMap);
 
       function initMap() {
         var opts = controller.options || {};
-
+        var responsive = controller.responsive || {};
         opts.zoom = opts.zoom || 5;
         opts.center = controller.center;
 
-
         var mapW = document.getElementById(controller.mapId);
+        if (responsive.autoWidthHeight) {
+          autoWidthHeight(element, responsive);
+        }
 
         scope.vm.map = new google.maps.Map(mapW, opts);
       }
+    }
 
-      function calcHeight() {
-        var h = $('#content').innerHeight() - 80;
-        $('.google-map').height(h);
+
+    function autoWidthHeight(element, config) {
+      var elem = $(element);
+
+      function resize() {
+        var w = elem.parent().width();
+        var h = $window.innerHeight;
+
+        elem.find('div').css({
+          height: (h - (config.heightMargin || 0)) + 'px',
+          width: (w - (config.widthMargin || 0)) + 'px'
+        });
       }
 
-      $($window).on('resize', calcHeight);
-      calcHeight();
+      $($window).on('resize', resize);
+      resize();
     }
 
     function appendGoogleMapsJS(callback) {

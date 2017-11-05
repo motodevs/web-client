@@ -3,8 +3,9 @@
   "dependencies": {
     "angular": "angularjs#^1.6.4",
     "angular-ui-router": "^1.0.3",
-    "jquery": "1.7.2",
+    "jquery": "1.9.2",
     "moment": "momentjs#^2.18.1",
-    "angular-cookies": "1.6.4"
+    "angular-cookies": "1.6.4",
+    "bootstrap": "^3.3.7"
   }
 }

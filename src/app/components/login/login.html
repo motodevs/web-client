@@ -1,25 +1,80 @@
-<div id="loginbox">
-    <form id="loginform" ng-submit="vm.doLogin()" class="form-vertical" novalidate>
-        <div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
-        <div class="control-group">
-            <div class="controls">
-                <div class="main_input_box">
-                    <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" ng-model="vm.username" placeholder="Username" />
-                </div>
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <div class="main_input_box">
-                    <span class="add-on bg_ly"><i class="icon-lock"></i></span><input ng-model="vm.password" type="password" placeholder="Password" />
-                </div>
-            </div>
-        </div>
-        <div class="form-actions">
-            <!--<span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>-->
-            <span class="pull-right"><a ng-click="vm.doLogin()" class="btn btn-success" /> Login</a></span>
-        </div>
+<div class="container">
+
+    <form class="form-signin" ng-submit="vm.doLogin()" novalidate>
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" ng-model="vm.username" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" ng-model="vm.password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button ng-click="vm.doLogin()" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
-</div>
-<link rel="stylesheet" href="css/matrix-login.css" />
-<script src="js/matrix.login.js"></script>
+
+</div> <!-- /container -->
+<style>
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+    .form-signin .checkbox {
+        font-weight: normal;
+    }
+    .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+</style>
+
+
+<!--<div id="loginbox">-->
+    <!--<form id="loginform" ng-submit="vm.doLogin()" class="form-vertical" novalidate>-->
+        <!--<div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>-->
+        <!--<div class="control-group">-->
+            <!--<div class="controls">-->
+                <!--<div class="main_input_box">-->
+                    <!--<span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" ng-model="vm.username" placeholder="Username" />-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="control-group">-->
+            <!--<div class="controls">-->
+                <!--<div class="main_input_box">-->
+                    <!--<span class="add-on bg_ly"><i class="icon-lock"></i></span><input ng-model="vm.password" type="password" placeholder="Password" />-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-actions">-->
+            <!--&lt;!&ndash;<span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>&ndash;&gt;-->
+            <!--<span class="pull-right"><a ng-click="vm.doLogin()" class="btn btn-success" /> Login</a></span>-->
+        <!--</div>-->
+    <!--</form>-->
+<!--</div>-->

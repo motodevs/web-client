@@ -1,47 +1,22 @@
-<!--Header-part-->
-<div id="header">
-    <h1><a ui-sref="dashboard">Matrix Admin</a></h1>
-</div>
-<!--close-Header-part-->
-
-<!--top-Header-menu-->
-<div id="user-nav" class="navbar navbar-inverse">
-    <ul class="nav">
-        <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome {{ vm.user.name }} )</span></a></li>
-        <!--<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>-->
-        <li class=""><a title="" ng-click="vm.logout()" href="javascript:;"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
-    </ul>
-</div>
-<!--close-top-Header-menu-->
-
-<!--start-top-serch-->
-<!--close-top-serch-->
-
-<!--sidebar-menu-->
-<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
-    <ul>
-        <li class="active"><a href="javascript:;" ui-sref="app.dashboard"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-    </ul>
-</div>
-<!--sidebar-menu-->
-
-<!--main-container-part-->
-<div id="content">
-    <!--breadcrumbs-->
-    <div id="content-header">
-        <div id="breadcrumb"> <a href="javascript:;" ui-sref="app.dashboard" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Dashboard</a></div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">OpenMTS</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a ui-sref="app.dashboard">Dashboard</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
     </div>
-    <!--End-breadcrumbs-->
+</nav>
 
-    <!--Action boxes-->
-    <div class="container-fluid {{ vm.contentClass }}">
-        <ui-view></ui-view>
-    </div>
-</div>
-
-<!--end-main-container-part-->
-
-<!--Footer-part-->
-<div class="row-fluid">
-    <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
-</div>
+<div class="container-fluid">
+    <ui-view></ui-view>
+</div> <!-- /container -->
