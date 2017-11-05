@@ -44,18 +44,6 @@
     }
 
 
-    // homeService.getMessages(deviceId, 1200, function (data) {
-    //   var i = 0;
-    //   var intervalid = $interval(function () {
-    //     vm.deviceState = data[i];
-    //     $scope.$broadcast('lat-lng-change', { lat: data[i].latitude, lng: data[i].longitude, zoom: 17, date: data[i].deviceDate, direction: data[i].direction });
-    //     i++;
-    //     if (i === 1200) {
-    //       $interval.cancel(intervalid);
-    //     }
-    //   }, 150);
-    // });
-
     function init() {
       homeService.getDeviceState(deviceId, function (state) {
         vm.deviceState = state;
@@ -63,6 +51,8 @@
         mapData.pan = true;
         mapData.zoom = 17;
         $scope.$broadcast('lat-lng-change', mapData);
+        startInterval();
+      }, function () {
         startInterval();
       });
     }
