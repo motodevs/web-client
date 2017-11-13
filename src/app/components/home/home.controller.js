@@ -7,57 +7,90 @@
 
   function homeControllerFn(homeService, $scope, $cookies, $interval, $window, $timeout) {
     var vm = this;
-    var deviceId, intervalId;
+    var devices, intervalId;
     vm.user = $cookies.getObject('user');
+
     vm.mapConfig = {
       autoWidthHeight: true
     };
+
     vm.loaded = false;
-    vm.lastLocation = {};
+    vm.states = [];
 
-    deviceId = vm.user.device.serial;
+    devices = vm.user.devices;
 
-    function getMapData() {
-      if (vm.deviceState) {
-        return {
-          lat: vm.deviceState.latitude,
-          lng: vm.deviceState.longitude,
-          date: vm.deviceState.deviceDate,
-          direction: vm.deviceState.direction
-        };
+    function getLocations() {
+      var locations = {};
+      if (vm.states.length ) {
+        vm.states.map(function (s) {
+          locations[s.state.deviceId] = {
+            lat: s.state.latitude,
+            lng: s.state.longitude,
+            date: s.state.deviceDate,
+            direction: s.state.direction,
+            label: s.device.label,
+            deviceId: s.state.deviceId
+          }
+        });
       }
+      return locations;
     }
 
-    vm.reCenter = function () {
-      var mapData = getMapData() || {};
-      mapData.pan = true;
-      mapData.zoom = 17 ;
-      $scope.$broadcast('lat-lng-change', mapData);
-    };
+    function getDeviceState(deviceId) {
+      var filter = vm.states.filter(function (s) {
+        return s.state.deviceId === deviceId;
+      });
 
-    function deviceStateHandler(state) {
-      vm.deviceState = state;
-      $scope.$broadcast('lat-lng-change', getMapData());
+      var state = filter.shift();
+
+      if (angular.isUndefined(state)) {
+        return undefined;
+      }
+
+      return angular.extend(angular.copy(state.state), { label: state.device.label });
     }
 
     function startInterval() {
       intervalId = $interval(function () {
-        homeService.getDeviceState(deviceId, deviceStateHandler);
-      }, 3000);
+        homeService.getDevicesState(devices).then(function (states) {
+          vm.states = states;
+          publishCoordinates();
+        });
+      }, 2000);
+    }
+
+    function publishCoordinates(pan, zoom, timeout) {
+      pan = pan || false;
+      zoom = zoom || ((pan === true && devices.length === 1) ? 15 : undefined);
+
+      if (timeout) {
+        setTimeout(broadcastCoordinates, 500);
+      } else {
+        broadcastCoordinates();
+      }
+
+      function broadcastCoordinates() {
+        var mapData = {
+          locations: getLocations(),
+          zoom: zoom,
+          pan: pan,
+          onMarkerClick: function (marker) {
+            $scope.$apply(function () {
+              vm.deviceState = getDeviceState(marker.deviceId);
+            });
+          }
+        };
+        $scope.$broadcast('lat-lng-change', mapData);
+      }
     }
 
     function init() {
-      homeService.getDeviceState(deviceId, function (state) {
-        vm.deviceState = state;
-        configureMapSize();
+      homeService.getDevicesState(devices).then(function (states) {
         vm.loaded = true;
-        var mapdata = angular.extend(getMapData(), { pan: true, zoom: 17 });
-        $timeout(function () { $scope.$broadcast('lat-lng-change', mapdata); }, 500);
+        vm.states = states;
+        publishCoordinates(true, (devices.length > 1 ? 13 : undefined), 500);
         startInterval();
-      }, function () {
         configureMapSize();
-        startInterval();
-        vm.loaded = true;
       });
     }
 

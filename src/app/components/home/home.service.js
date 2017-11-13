@@ -3,57 +3,47 @@
   var module = angular.module('OpenMtsWebCli');
   module.factory('homeService', homeServiceFn);
 
-  homeServiceFn.$inject = ['$http', '$log', '$window', 'appConfig'];
+  homeServiceFn.$inject = ['$http', '$log', '$window', 'appConfig', '$q'];
 
-  function homeServiceFn($http, $log, $window, config) {
+  function homeServiceFn($http, $log, $window, config, $q) {
     var moment = $window.moment;
 
     return {
-      getMessages: getMessages,
-      getDeviceState: getDeviceState
+      getDevicesState: getDevicesState
     };
 
-    function getMessages(deviceId, size, successFn, failFn) {
-      var status = 'VALID';
-      size = size || 1;
-      failFn = getFailFn(failFn);
+    function getDevicesState(devices) {
+      var states = { success: [], fails: [] };
+      var defer = $q.defer();
 
-      $http.get(config.api + '/messages/'+ deviceId +'?size='+ size +'&gps=' + status).then(function (response) {
-        var d = response.data;
-        var result = [];
+      for (var i = 0; i < devices.length; i++) {
+        var device = devices[i];
+        $http.get(config.api + '/device/'+ device.serial + '/state').then(stateSuccess(device), stateFail(device));
+      }
 
-        if (angular.isArray(d) && d.length > 0) {
-          d.map(function (r) {
-            result.unshift({
-              speed: r.speed,
-              distance: r.distance,
-              latitude: r.latitude,
-              longitude: r.longitude,
-              direction: r.direction,
-              date: moment(r.datetime)
-            });
-          });
-          successFn(result);
+      return defer.promise;
+
+      function stateSuccess(device) {
+        return function (response) {
+          response.data.deviceDate = moment(response.data.deviceDate);
+          states.success.push({ state: response.data, device: device });
+          checkAndResolve();
         }
-      }, failFn)
+      }
+
+      function stateFail(device) {
+        return function (response) {
+          states.fails.push({ state: undefined, device: device });
+          checkAndResolve();
+        }
+      }
+
+      function checkAndResolve() {
+        if (devices.length === (states.success.length + states.fails.length)) {
+          defer.resolve(states.success);
+        }
+      }
     }
-
-    function getDeviceState(deviceId, successFn, failFn) {
-      failFn = getFailFn(failFn);
-      $http.get(config.api + '/device/'+ deviceId + '/state').then(function (response) {
-        response.data.deviceDate = moment(response.data.deviceDate);
-        successFn(response.data);
-      }, failFn);
-    }
-
-
-
-    function getFailFn(failFn) {
-      return failFn || function (r) {
-          $log.warn(r);
-        };
-    }
-
   }
 
 

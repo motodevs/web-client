@@ -35,7 +35,7 @@
         user.username = response.data.email;
         user.name = response.data.name;
         user.surname = response.data.surname;
-        user.device = response.data.devices[0];
+        user.devices = response.data.devices;
         $cookies.putObject('user', user);
         loginSuccessFn(user);
       });

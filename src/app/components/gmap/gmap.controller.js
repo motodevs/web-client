@@ -3,13 +3,12 @@
   var module = angular.module('OpenMtsWebCli');
   module.controller('GMapController', gmapControllerFn);
 
-  gmapControllerFn.$inject = ['$scope', '$interval'];
+  gmapControllerFn.$inject = ['$scope', '$interval', '$log'];
 
-  function gmapControllerFn($scope, $interval) {
+  function gmapControllerFn($scope, $interval, $log) {
     var vm = this;
     var eventQ = [];
-    var marker;
-
+    var markers = {};
     /**
      * if lat-lng-change event broadcasted before map load, push event to eventQ
      */
@@ -18,16 +17,39 @@
         eventQ.unshift(mapData);
         return;
       }
+      google.maps.event.trigger(vm.map, 'resize');
 
-      var latLng = new google.maps.LatLng(mapData.lat, mapData.lng);
-      var markerProperties = { position: latLng, map: vm.map };
+      if (angular.isObject(mapData.locations) && Object.keys(mapData.locations).length === 0) {
+        return;
+      }
+
+      var latLng = {}, markerProperties = {}, deviceId;
+      for (deviceId in mapData.locations) {
+        var state = mapData.locations[deviceId];
+        latLng[deviceId] = new google.maps.LatLng(state.lat, state.lng);
+        markerProperties[deviceId] = {
+          position: latLng[deviceId],
+          map: vm.map,
+          label: {
+            text: state.label + ' ' + state.deviceId,
+          }
+        };
+
+        if (state.direction) {
+          markerProperties[deviceId].icon = {
+            path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            scale: 4,
+            rotation: state.direction
+          };
+        }
+      }
 
       if (mapData.zoom) {
         vm.map.setZoom(mapData.zoom);
       }
 
       if (mapData.pan) {
-        vm.map.panTo(latLng);
+        vm.map.panTo(latLng[Object.keys(latLng)[0]]);
       }
 
       if (mapData.clearMarkers) {
@@ -36,20 +58,28 @@
         });
       }
 
-      if (mapData.direction) {
-        markerProperties.icon = {
-          path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-          scale: 4,
-          rotation: mapData.direction
-        };
-      }
 
-      if (!marker) {
-        marker = new google.maps.Marker(markerProperties);
-      } else {
-        marker.setPosition(latLng);
-        if (markerProperties.icon) {
-          marker.setIcon(markerProperties.icon)
+      for (deviceId in mapData.locations) {
+        var currentLatLng = latLng[deviceId];
+        var currentMarkerProperties = markerProperties[deviceId];
+        var currentMarker = markers[deviceId];
+
+        if (!currentMarker) {
+          markers[deviceId] = new google.maps.Marker(currentMarkerProperties);
+          markers[deviceId].addListener('click', getMarkerOnClickHandler(mapData, mapData.locations[deviceId]));
+        } else {
+          currentMarker.setPosition(currentLatLng);
+          if (currentMarkerProperties && currentMarkerProperties.icon) {
+            currentMarker.setIcon(currentMarkerProperties.icon);
+          }
+        }
+      }
+    }
+
+    function getMarkerOnClickHandler(mapData, currentMarker) {
+      return function () {
+        if (angular.isFunction(mapData.onMarkerClick)) {
+          mapData.onMarkerClick(currentMarker);
         }
       }
     }

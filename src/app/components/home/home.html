@@ -2,7 +2,11 @@
 <!--<google-map></google-map>-->
 
 <div class="row">
-    <div class="current-state">
+    <div class="current-state" ng-if="vm.deviceState">
+
+        <span class="device-info">
+            <span class="device-info-title">Label:</span> {{ vm.deviceState.label }} |
+        </span>
 
         <span class="device-info">
             <span class="device-info-title">Speed:</span> {{ vm.deviceState.speed | number :2  }} |
@@ -13,11 +17,11 @@
         </span>
 
         <span class="device-info">
-            <span class="device-info-title">Status:</span> {{ vm.deviceState.deviceStatus }} |
+            <span class="device-info-title">Status:</span> {{ vm.deviceState.deviceStatus | limitTo: 1 }} |
         </span>
 
         <span class="device-info">
-            <span class="device-info-title">DeviceDate:</span> {{ vm.deviceState.deviceDate.format('DD.MM.YYYY HH:mm:ss') }}
+            <span class="device-info-title">DeviceDate:</span> {{ vm.deviceState.deviceDate.format('DD.MM.YY HH:mm:ss') }}
         </span>
 
     </div>

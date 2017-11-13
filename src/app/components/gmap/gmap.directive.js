@@ -32,16 +32,15 @@
         opts.center = controller.center;
 
         var mapW = document.getElementById(controller.mapId);
-        if (responsive.autoWidthHeight) {
-          autoWidthHeight(element, responsive);
-        }
-
         scope.vm.map = new google.maps.Map(mapW, opts);
+        if (responsive.autoWidthHeight) {
+          autoWidthHeight(element, responsive, scope.vm.map);
+        }
       }
     }
 
 
-    function autoWidthHeight(element, config) {
+    function autoWidthHeight(element, config, map) {
       var elem = $(element);
 
       function resize() {
@@ -52,6 +51,7 @@
           height: (h - (config.heightMargin || 0)) + 'px',
           width: (w - (config.widthMargin || 0)) + 'px'
         });
+
       }
 
       $($window).on('resize', resize);
