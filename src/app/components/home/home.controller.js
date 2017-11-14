@@ -55,6 +55,9 @@
         homeService.getDevicesState(devices).then(function (states) {
           vm.states = states;
           publishCoordinates();
+          if (vm.deviceState) {
+            vm.deviceState = getDeviceState(vm.deviceState.deviceId)
+          }
         });
       }, 2000);
     }
