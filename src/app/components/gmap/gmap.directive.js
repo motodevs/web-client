@@ -47,11 +47,12 @@
         var w = elem.parent().width();
         var h = $window.innerHeight;
 
-        elem.find('div').css({
+        elem.find('div:first').css({
           height: (h - (config.heightMargin || 0)) + 'px',
           width: (w - (config.widthMargin || 0)) + 'px'
         });
 
+        google.maps.event.trigger(map, 'resize');
       }
 
       $($window).on('resize', resize);

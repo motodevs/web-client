@@ -17,7 +17,6 @@
         eventQ.unshift(mapData);
         return;
       }
-      google.maps.event.trigger(vm.map, 'resize');
 
       if (angular.isObject(mapData.locations) && Object.keys(mapData.locations).length === 0) {
         return;
