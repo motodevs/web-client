@@ -33,3 +33,13 @@ body {
     content: '\f05b';
     font-size: 20px;
 }
+
+.fixed-location-share {
+    position: fixed;
+    z-index: 99999999;
+    top: 0;
+    right: 0;
+    color: white;
+    background: #101010;
+    padding: 15px;
+}

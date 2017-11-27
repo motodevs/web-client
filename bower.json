@@ -6,6 +6,7 @@
     "jquery": "^1.9.1",
     "moment": "momentjs#^2.18.1",
     "angular-cookies": "1.6.4",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "alertifyjs": "^1.0.11"
   }
 }

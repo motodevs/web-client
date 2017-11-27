@@ -13,11 +13,13 @@ var vendorJS = [
   'vendor/angular-ui-router/release/angular-ui-router.min.js',
   'vendor/moment/min/moment.min.js',
   'vendor/moment/min/locales.min.js',
-  'vendor/bootstrap/dist/js/bootstrap.min.js'
+  'vendor/bootstrap/dist/js/bootstrap.min.js',
+  'vendor/alertifyjs/dist/js/ngAlertify.js'
 ];
 
 var vendorCSS = [
-  'vendor/bootstrap/dist/css/bootstrap.min.css'
+  'vendor/bootstrap/dist/css/bootstrap.min.css',
+  'vendor/alertifyjs/dist/css/alertify.css'
 ];
 
 gulp.task('vendorJS', function () {

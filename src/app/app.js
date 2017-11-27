@@ -1,6 +1,6 @@
 (function () {
 
-  var module = angular.module('OpenMtsWebCli', ['ui.router', 'ngCookies']);
+  var module = angular.module('OpenMtsWebCli', ['ui.router', 'ngCookies', 'ngAlertify']);
 
 
   module.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',

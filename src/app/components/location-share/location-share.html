@@ -1,0 +1,13 @@
+<div class="fixed-location-share">
+    <form name="locationShareForm">
+        <div class="form-group">
+            <label for="recipientNumber">Recipient Number</label>
+            <input type="text" ng-maxlength="10" ng-minlength="10" ng-required="true" class="form-control" ng-model="vm.recipientNumber" id="recipientNumber" placeholder="Recipient Number">
+        </div>
+        <div class="form-group">
+            <label for="trackingUnit">Unit</label>
+            <select ng-required="true" id="trackingUnit" class="form-control" name="unit" ng-model="vm.unit" ng-options="device as device.label for device in vm.devices"></select>
+        </div>
+        <button type="submit" class="btn btn-default btn-block" ng-click="vm.shareLocation()">Submit</button>
+    </form>
+</div>
