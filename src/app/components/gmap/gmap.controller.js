@@ -23,9 +23,11 @@
         return;
       }
 
+
       if (mapData.clearMarkers) {
-        markers.map(function (m) {
-          m.setMap(null);
+        Object.keys(markers).map(function (m) {
+          markers[m].setMap(null);
+          delete markers[m];
         });
       }
 
