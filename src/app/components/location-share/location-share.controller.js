@@ -18,16 +18,17 @@
       vm.recipientNumber = undefined;
     }
 
-    function shareLocationSuccess(response) {
-      if (!response.smsFailed) {
-        alertify.success('Hash created ('+ response.hash +') and sent. Validity date: ' + new Date(response.expireDate).toString());
+    function createPublicHashSuccess(response) {
+      alertify.success('Hash created ('+ response.hash +') and sent. Validity date: ' + new Date(response.expireDate).toString());
+      locationShareService.shareWithSms(vm.recipientNumber, response.hash, vm.unit, function (data) {
+        alertify.log('Sms send result ' + data.response);
         resetForm();
-      } else {
-        alertify.error('sms can\'t send. check server logs');
-      }
+      }, function () {
+        alertify.error('Sms can\'t send');
+      });
     }
 
-    function shareLocationFail(errorResponse) {
+    function createPublicHashFail(errorResponse) {
       alertify.error('server error see logs');
       $log.error(errorResponse);
     }
@@ -39,7 +40,7 @@
       }
 
       alertify.confirm('Are your sure want to share ' + vm.unit.label + '('+ vm.unit.serial +')\'s location with ' + vm.recipientNumber, function () {
-        locationShareService.shareLocation(vm.recipientNumber, vm.unit, shareLocationSuccess, shareLocationFail);
+        locationShareService.createPublicHash(vm.unit, createPublicHashSuccess, createPublicHashFail);
       });
 
     };
