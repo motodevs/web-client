@@ -9,6 +9,7 @@
     var vm = this;
     var eventQ = [];
     var markers = {};
+
     /**
      * if lat-lng-change event broadcasted before map load, push event to eventQ
      */
@@ -22,24 +23,38 @@
         return;
       }
 
-      var latLng = {}, markerProperties = {}, deviceId;
-      for (deviceId in mapData.locations) {
-        var state = mapData.locations[deviceId];
-        latLng[deviceId] = new google.maps.LatLng(state.lat, state.lng);
-        markerProperties[deviceId] = {
-          position: latLng[deviceId],
+      if (mapData.clearMarkers) {
+        markers.map(function (m) {
+          m.setMap(null);
+        });
+      }
+
+      var id, locations = {};
+      for (id in mapData.locations) {
+        var state = mapData.locations[id];
+        locations[id] = {};
+        locations[id].latLng = new google.maps.LatLng(state.lat, state.lng);
+        locations[id].markerProperties = {
+          position: locations[id].latLng,
           map: vm.map,
-          label: {
-            text: state.label + ' ' + state.deviceId,
+          label: state.label,
+          icon: {
+            labelOrigin: new google.maps.Point(60, 0)
           }
         };
 
         if (state.direction) {
-          markerProperties[deviceId].icon = {
+          locations[id].markerProperties.icon = {
             path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             scale: 4,
-            rotation: state.direction
+            rotation: state.direction,
+            labelOrigin: new google.maps.Point(7, -5)
           };
+        } else if (state.icon) {
+          var icon = state.icon;
+          icon.scaledSize = new google.maps.Size(35, 35);
+          icon.labelOrigin =  new google.maps.Point(60, 0);
+          angular.extend(locations[id].markerProperties.icon, icon);
         }
       }
 
@@ -48,24 +63,18 @@
       }
 
       if (mapData.pan) {
-        vm.map.panTo(latLng[Object.keys(latLng)[0]]);
+        var k = Object.keys(locations)[0];
+        vm.map.panTo(locations[k].latLng);
       }
 
-      if (mapData.clearMarkers) {
-        markers.map(function (m) {
-          m.setMap(null);
-        });
-      }
-
-
-      for (deviceId in mapData.locations) {
-        var currentLatLng = latLng[deviceId];
-        var currentMarkerProperties = markerProperties[deviceId];
-        var currentMarker = markers[deviceId];
+      for (id in mapData.locations) {
+        var currentLatLng = locations[id].latLng;
+        var currentMarkerProperties = locations[id].markerProperties;
+        var currentMarker = markers[id];
 
         if (!currentMarker) {
-          markers[deviceId] = new google.maps.Marker(currentMarkerProperties);
-          markers[deviceId].addListener('click', getMarkerOnClickHandler(mapData, mapData.locations[deviceId]));
+          markers[id] = new google.maps.Marker(currentMarkerProperties);
+          markers[id].addListener('click', getMarkerOnClickHandler(mapData, mapData.locations[id]));
         } else {
           currentMarker.setPosition(currentLatLng);
           if (currentMarkerProperties && currentMarkerProperties.icon) {

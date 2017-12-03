@@ -3,9 +3,9 @@
   var module = angular.module('OpenMtsWebCli');
   module.controller('LocationShareController', locationShareControllerFn);
 
-  locationShareControllerFn.$inject = ['$cookies', '$scope', 'alertify', 'LocationShareService', '$log'];
+  locationShareControllerFn.$inject = ['$cookies', '$scope', 'alertify', 'LocationShareService', '$log', 'appConfig'];
 
-  function locationShareControllerFn($cookies, $scope, alertify, locationShareService, $log) {
+  function locationShareControllerFn($cookies, $scope, alertify, locationShareService, $log, appConfig) {
     var vm = this;
     var user = $cookies.getObject('user');
     vm.devices = user.devices;
@@ -29,7 +29,7 @@
     }
 
     function createPublicHashFail(errorResponse) {
-      alertify.error('server error see logs');
+      alertify.error('cannot create hash');
       $log.error(errorResponse);
     }
 
@@ -39,10 +39,15 @@
         return;
       }
 
-      alertify.confirm('Are your sure want to share ' + vm.unit.label + '('+ vm.unit.serial +')\'s location with ' + vm.recipientNumber, function () {
-        locationShareService.createPublicHash(vm.unit, createPublicHashSuccess, createPublicHashFail);
-      });
-
+      if (vm.sendSms) {
+        alertify.confirm('Are your sure want to share ' + vm.unit.label + '('+ vm.unit.serial +')\'s location with ' + vm.recipientNumber, function () {
+          locationShareService.createPublicHash(vm.unit, createPublicHashSuccess, createPublicHashFail);
+        });
+      } else {
+        locationShareService.createPublicHash(vm.unit, function (response) {
+          alertify.alert('Public location url created: <a target="_blank" href="' + appConfig.publicLocationUrl.replace('#hash#', response.hash) + '">'+ response.hash +'</a> validity date: ' + new Date(response.expireDate).toString())
+        }, createPublicHashFail);
+      }
     };
 
   }

@@ -28,7 +28,14 @@
             lng: s.state.longitude,
             date: s.state.deviceDate,
             direction: s.state.direction,
-            label: s.device.label,
+            label: {
+              text: s.device.label,
+              fontSize: '13px',
+              fontWeight: 'bold'
+            },
+            icon: {
+              url: 'images/motorcycle.png'
+            },
             deviceId: s.state.deviceId
           }
         });
