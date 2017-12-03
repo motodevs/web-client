@@ -1,6 +1,6 @@
 (function () {
     var appConfig = {
-      api: 'http://api.openmts.com/api',
+      api: 'http://api.openmts.com/',
       mapsApiKey: 'AIzaSyCzJj2IW8r5jbzxRUT3k0pE_h1AaQsSm50'
     };
 
