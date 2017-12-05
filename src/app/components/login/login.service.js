@@ -51,8 +51,8 @@
       var defer = $q.defer();
       $http.get(config.api + '/user/checkpoint').then(function () {
         defer.resolve();
-      }, function () {
-        defer.reject({ invalidToken: true })
+      }, function (response) {
+        defer.reject({ invalidToken: true, response: response })
       });
 
       return defer.promise;

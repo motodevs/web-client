@@ -3,11 +3,11 @@
   var module = angular.module('OpenMtsWebCli');
   module.controller('HomeController', homeControllerFn);
 
-  homeControllerFn.$inject = ['homeService', '$scope', '$cookies', '$interval', '$window', '$timeout'];
+  homeControllerFn.$inject = ['homeService', '$scope', '$cookies', '$interval', '$window', 'loginService', '$state', 'alertify'];
 
-  function homeControllerFn(homeService, $scope, $cookies, $interval, $window, $timeout) {
+  function homeControllerFn(homeService, $scope, $cookies, $interval, $window, loginService, $state, alertify) {
     var vm = this;
-    var devices, intervalId;
+    var devices, intervalId, loginCheckIntervalId;
     vm.user = $cookies.getObject('user');
 
     vm.mapConfig = {
@@ -101,6 +101,19 @@
         publishCoordinates(true, (devices.length > 1 ? 13 : undefined), 500);
         startInterval();
         configureMapSize();
+      });
+
+      loginCheckIntervalId = $interval(checkSessionTimeout, 3000);
+    }
+
+    function checkSessionTimeout() {
+      loginService.isLoggedIn().then(function () {
+        // success
+      }, function (error) {
+        $interval.cancel(loginCheckIntervalId);
+        alertify.alert('Your session has been timed out reason ' + JSON.stringify(error.response.data) + '. Click OK to logout', function () {
+          $state.go('login');
+        });
       });
     }
 
