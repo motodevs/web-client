@@ -50,7 +50,7 @@
             path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             scale: 4,
             rotation: state.direction,
-            labelOrigin: new google.maps.Point(7, -5)
+            labelOrigin: new google.maps.Point(5, 5)
           };
         } else if (state.icon) {
           var icon = state.icon;

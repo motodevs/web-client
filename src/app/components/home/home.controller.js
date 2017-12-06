@@ -110,6 +110,11 @@
       loginService.isLoggedIn().then(function () {
         // success
       }, function (error) {
+        // may be internet connection lost
+        if (error.response.status === -1) {
+          return;
+        }
+
         $interval.cancel(loginCheckIntervalId);
         alertify.alert('Your session has been timed out reason ' + JSON.stringify(error.response.data) + '. Click OK to logout', function () {
           $state.go('login');
