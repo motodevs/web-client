@@ -1,10 +1,15 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var browserSync = require('browser-sync').create();
-
+var replace = require('gulp-replace');
 var env = process.env.ENV || 'local';
-
+var rnd = Math.random().toString(16).substring(2,7);
 var configFile = './src/env/' + env + ".js";
+
+console.log('ENV: ' + env);
+console.log('rnd: ' + rnd);
+console.log('Config: ' + configFile);
+
 
 var vendorJS = [
   'vendor/jquery/dist/jquery.min.js',
@@ -41,6 +46,7 @@ gulp.task('bootstrapFonts', function () {
 
 gulp.task('copy', function () {
   return gulp.src(['!./src/app/app.js', './src/app/**/*.*', './src/index.html'])
+    .pipe(replace('@RANDOM', rnd))
     .pipe(gulp.dest('./public'));
 
 });
@@ -54,6 +60,7 @@ gulp.task('copyAssets', function () {
 
 gulp.task('copyApp', function () {
   return gulp.src(['./src/app/app.js', configFile])
+    .pipe(replace('@RANDOM', rnd))
     .pipe(concat('app.js'))
     .pipe(gulp.dest('./public/'));
 });

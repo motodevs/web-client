@@ -10,13 +10,13 @@
         abstract: true,
         controller: 'AppController',
         controllerAs: 'vm',
-        templateUrl: 'components/app/app.html'
+        templateUrl: 'components/app/app.html?_=@RANDOM'
       });
 
       $stateProvider.state('app.dashboard', {
         url: '/dashboard',
         controller: 'HomeController as vm',
-        templateUrl: 'components/home/home.html',
+        templateUrl: 'components/home/home.html?_=@RANDOM',
         resolve: {
           loggedIn: ['loginService', function (loginService) {
             return loginService.isLoggedIn();
@@ -27,7 +27,7 @@
       $stateProvider.state('login', {
         url: '/login',
         controller: 'LoginController as vm',
-        templateUrl: 'components/login/login.html'
+        templateUrl: 'components/login/login.html?_=@RANDOM'
       });
 
       $urlRouterProvider.otherwise('/dashboard');

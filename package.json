@@ -11,6 +11,7 @@
   "devDependencies": {
     "browser-sync": "^2.18.11",
     "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1"
+    "gulp-concat": "^2.6.1",
+    "gulp-replace": "^0.6.1"
   }
 }
